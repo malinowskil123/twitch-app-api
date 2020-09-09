@@ -1,5 +1,7 @@
 {
   "name": "twitch-vue-app",
+  "main": "server/index.js",
+  "proxy": "http://localhost:9000",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +11,11 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "axios": "^0.20.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
