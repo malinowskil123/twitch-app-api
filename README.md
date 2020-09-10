@@ -1,6 +1,6 @@
 # Introduction
 
-**Twitch-api-app** allows users to search Twitch's API for users and displays the information back to the user (node required!!!!).
+**Twitch-api-app** allows users to search Twitch's API for channels and displays the information back to the user (node required!!!!).
 
 ## To Run This App </>
 
@@ -8,13 +8,13 @@
 
 2. `cd` into the project folder
 
-3. Create a .env file
+3. Install dependencies
 
-###### Example
+   ###### Example
 
-(CLIENT_ID must be provided by the user, to get one head over to [dev.twitch.tv](https://dev.twitch.tv/)
+   **CLIENT_ID** must be provided by the user, to get one head over to [dev.twitch.tv](https://dev.twitch.tv/)
 
-`PORT=9000 CLIENT_ID=######################`
+   `PORT=9000 CLIENT_ID=######################`
 
 4. Install dependencies
 
