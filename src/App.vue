@@ -1,28 +1,116 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header />
+    <div class="container">
+      <AddChannel v-on:get-channel="getChannel" v-bind:loading="loading" />
+      <DisplayChannels
+        v-on:delete-channel="deleteChannel"
+        v-bind:channels="channels"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import Header from './components/Header.vue'
+  import AddChannel from './components/AddChannel.vue'
+  import DisplayChannels from './components/DisplayChannels.vue'
+  import axios from 'axios'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  export default {
+    name: 'App',
+    components: {
+      Header,
+      AddChannel,
+      DisplayChannels,
+    },
+    data() {
+      return {
+        channels: [],
+        loading: false,
+      }
+    },
+    methods: {
+      getChannel(channelName) {
+        this.loading = true
+        // slowing down response to show loading animations
+        setTimeout(async () => {
+          try {
+            const response = await axios.get(`/api/channel/${channelName}`)
+            if (response.data.message) return alert(response.data.message)
+            this.channels = [...this.channels, response.data]
+          } catch (err) {
+            alert(err)
+          }
+          this.loading = false
+        }, 2000)
+      },
+      deleteChannel(id) {
+        this.channels = this.channels.filter((channel) => channel._id !== id)
+      },
+    },
   }
-}
 </script>
 
+// global styles
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  a {
+    color: #333;
+    text-decoration: none;
+  }
+
+  #app {
+    width: 100%;
+    min-height: 100vh;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+    background-image: linear-gradient(165deg, #85d3cc 25%, #6d5b7c 75%);
+  }
+
+  .flex-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .flex-half {
+    width: 50%;
+  }
+
+  .flex-right {
+    justify-content: flex-end;
+  }
+
+  .flex-left {
+    justify-content: flex-start;
+  }
+
+  .flex-center {
+    justify-content: center;
+  }
+
+  .flex-padding {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .container {
+    width: 40%;
+  }
+
+  @media (min-width: 0px) and (max-width: 576px) {
+    .container {
+      width: 90%;
+    }
+  }
 </style>

@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 9000
 // app vars
 const app = express()
 
+app.use(express.static(`${__dirname}/../dist`))
 // endpoints
 app.get('/api/channel/:channelName', checkCache, getChannel)
 

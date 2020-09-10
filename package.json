@@ -1,7 +1,6 @@
 {
   "name": "twitch-vue-app",
   "main": "server/index.js",
-  "proxy": "http://localhost:9000",
   "version": "0.1.0",
   "private": true,
   "scripts": {

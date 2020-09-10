@@ -16,11 +16,18 @@ module.exports = {
           },
         }
       )
-      const [channel] = response.data.channels
-      client.setex(channelName, 300, JSON.stringify(channel))
-      res.status(200).send(channel)
+
+      const { _total } = response.data
+      if (_total > 0) {
+        const [channel] = response.data.channels
+        client.setex(channelName, 300, JSON.stringify(channel))
+        res.status(200).send(channel)
+      } else
+        res.status(200).send({
+          message: `Channel with the name "${channelName}" doesn't exist`,
+        })
     } catch (err) {
-      res.status(500).send(err.message)
+      res.status(500).send(err)
     }
   },
 }
