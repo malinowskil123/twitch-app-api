@@ -1,6 +1,6 @@
 const axios = require('axios')
 const { twitchApiPath } = require('../utils/config')
-const client = require('../utils/cache')
+// const client = require('../utils/cache')
 const CLIENT_ID = process.env.CLIENT_ID
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
         `${twitchApiPath}?query=${channelName}&limit=1`,
         {
           headers: {
-            'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+            'Client-ID': CLIENT_ID,
             Accept: 'application/vnd.twitchtv.v5+json',
           },
         }
@@ -20,7 +20,7 @@ module.exports = {
       const { _total } = response.data
       if (_total > 0) {
         const [channel] = response.data.channels
-        client.setex(channelName, 300, JSON.stringify(channel))
+        // client.setex(channelName, 300, JSON.stringify(channel))
         res.status(200).send(channel)
       } else
         res.status(200).send({
