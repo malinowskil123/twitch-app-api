@@ -1,5 +1,7 @@
+const PORT = process.env.PORT || 9000
+
 module.exports = {
   devServer: {
-    proxy: 'http://localhost:9000',
+    proxy: `http://localhost:${PORT}`,
   },
 }
