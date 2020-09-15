@@ -1,19 +1,15 @@
 <template>
   <div class="channels-scroll">
-    <select
-      @change="onChange($event)"
-      v-bind:class="{'hide': channelsLength<=1 }"
-      class="flex-left"
-    >
-      <option>Sort By Name</option>
-      <option value="A-Z">Sort: A-Z</option>
-      <option value="Z-A">Sort: Z-A</option>
+    <select v-model="selected" v-if="channelsLength>1" @change="onChange($event)" class="flex-left">
+      <option :value="undefined">Sort By Name</option>
+      <option v-for="option in options" v-bind:key="option" :value="option">{{option}}</option>
     </select>
     <div v-bind:key="channel._id" v-for="channel in channels" class="channel">
       <Channel v-bind:channel="channel" v-on:delete-channel="$emit('delete-channel', channel._id)" />
     </div>
   </div>
 </template>
+
 
 <script>
 import Channel from "./Channel.vue";
@@ -22,7 +18,21 @@ export default {
   components: {
     Channel,
   },
+  data() {
+    return {
+      options: ["A-Z", "Z-A"],
+      selected: undefined,
+    };
+  },
   props: ["channels", "channelsLength"],
+  watch: {
+    channelsLength: {
+      immediate: true,
+      handler(currentValue) {
+        if (currentValue <= 1) this.selected = undefined;
+      },
+    },
+  },
   methods: {
     onChange(event) {
       this.$emit("sort", event.target.value, "name");
@@ -30,6 +40,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .channels-scroll {
