@@ -26,7 +26,11 @@ export default {
 
 @media (min-width: 0px) and (max-width: 850px) and (max-height: 500px) {
   #header {
-    height: 15vh;
+    height: 8vh;
+  }
+
+  #header:first-child {
+    font-size: 0.6rem;
   }
 }
 

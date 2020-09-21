@@ -44,7 +44,7 @@ export default {
 
 <style scoped>
 .channels-scroll {
-  max-height: 50vh;
+  max-height: 40vh;
   margin-top: 20px;
   overflow-y: scroll;
 }

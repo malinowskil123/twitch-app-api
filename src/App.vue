@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-bind:style="styleObject">
     <Header />
     <div class="container">
       <AddChannel v-on:get-channel="getChannel" v-bind:loading="loading" />
@@ -26,12 +26,26 @@ export default {
     AddChannel,
     DisplayChannels,
   },
+
   data() {
     return {
       channels: [],
       loading: false,
+      styleObject: {
+        height: "0px",
+      },
     };
   },
+
+  mounted() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+
   methods: {
     async getChannel(channelName) {
       this.loading = true;
@@ -55,6 +69,9 @@ export default {
           : b[sortBy].localeCompare(a[sortBy]);
       });
     },
+    handleResize() {
+      this.styleObject.height = window.innerHeight + "px";
+    },
   },
 };
 </script>
@@ -74,7 +91,6 @@ a {
 
 #app {
   width: 100%;
-  min-height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
