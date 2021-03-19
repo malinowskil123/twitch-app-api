@@ -4,30 +4,27 @@ const client = require('../utils/redis')
 const CLIENT_ID = process.env.CLIENT_ID
 
 module.exports = {
-  getChannel: async (req, res, next) => {
-    const { channelName } = req.params
-    try {
-      const response = await axios.get(
-        `${twitchApiPath}?query=${channelName}&limit=1`,
-        {
-          headers: {
-            'Client-ID': CLIENT_ID,
-            Accept: 'application/vnd.twitchtv.v5+json',
-          },
-        }
-      )
+    getChannel: async (req, res, next) => {
+        const { channelName } = req.params
+        try {
+            const response = await axios.get(`${twitchApiPath}?query=${channelName}&limit=1`, {
+                headers: {
+                    'Client-ID': CLIENT_ID,
+                    Accept: 'application/vnd.twitchtv.v5+json',
+                },
+            })
 
-      const { _total } = response.data
-      if (_total > 0) {
-        const [channel] = response.data.channels
-        client.setex(channelName, 300, JSON.stringify(channel))
-        res.status(200).send(channel)
-      } else
-        res.status(200).send({
-          message: `Channel with the name "${channelName}" doesn't exist`,
-        })
-    } catch (err) {
-      res.status(500).send(err)
-    }
-  },
+            const { _total } = response.data
+            if (_total > 0) {
+                const [channel] = response.data.channels
+                client.setex(channelName, 300, JSON.stringify(channel))
+                res.status(200).send(channel)
+            } else
+                res.status(200).send({
+                    message: `Channel with the name "${channelName}" doesn't exist`,
+                })
+        } catch (err) {
+            res.status(500).send(err)
+        }
+    },
 }
